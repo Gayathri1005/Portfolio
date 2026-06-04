@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio | B.Tech IT Student & Flutter Developer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    /* ── CERTIFICATES SECTION ── */
+    .certificates-section { background: var(--bg-alt, #0d0d0d); }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      margin-top: 48px;
+    }
+
+    .cert-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 36px 30px 30px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .cert-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease calc(var(--i,0) * 0.15s),
+                  transform 0.6s ease calc(var(--i,0) * 0.15s),
+                  box-shadow 0.35s ease;
+    }
+    .cert-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+
+    /* Gradient accent stripe */
+    .cert-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--cert-accent, linear-gradient(90deg, #6c63ff, #ff6584));
+    }
+
+    .cert-ribbon {
+      position: absolute;
+      top: 18px;
+      right: -28px;
+      background: var(--cert-accent-solid, #6c63ff);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 36px;
+      transform: rotate(45deg);
+    }
+
+    .cert-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .cert-icon {
+      font-size: 1.6rem;
+    }
+
+    .cert-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .cert-issuer {
+      font-size: 0.82rem;
+      opacity: 0.55;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cert-desc {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+    .cert-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cert-year {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.45;
+    }
+    .cert-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Card accent variants */
+    .cert-card:nth-child(1) {
+      --cert-accent: linear-gradient(90deg, #667eea, #764ba2);
+      --cert-accent-solid: #667eea;
+    }
+    .cert-card:nth-child(2) {
+      --cert-accent: linear-gradient(90deg, #f093fb, #f5576c);
+      --cert-accent-solid: #f093fb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>Dev<span class="logo-bracket">/&gt;</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home"         class="nav-link active">Home</a></li>
+        <li><a href="#about"        class="nav-link">About</a></li>
+        <li><a href="#skills"       class="nav-link">Skills</a></li>
+        <li><a href="#projects"     class="nav-link">Projects</a></li>
+        <li><a href="#certificates" class="nav-link">Certificates</a></li>
+        <li><a href="#education"    class="nav-link">Education</a></li>
+        <li><a href="#contact"      class="nav-link">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-content">
+      <div class="hero-badge reveal-up">
+        <span class="badge-dot"></span>
+        Available for Internship and Job Opportunities
+      </div>
+      <h1 class="hero-name reveal-up delay-1">Gayathri</h1>
+      <div class="hero-role reveal-up delay-2">
+        <span class="role-prefix">I am a </span>
+        <span class="typing-wrapper">
+          <span class="typed-text" id="typedText"></span>
+          <span class="cursor">|</span>
+        </span>
+      </div>
+      <p class="hero-intro reveal-up delay-3">
+        Creating responsive websites and engaging mobile applications using modern technologies.<br />
+B.Tech Information Technology student passionate about software development, innovation, and continuous learning.
+      </p>
+      <div class="hero-cta reveal-up delay-4">
+        <a href="gayathri-resume.pdf" class="btn btn-primary" download>
+          <i class="ri-download-2-line"></i> Download CV
+        </a>
+        <a href="#projects" class="btn btn-ghost">
+          View Work <i class="ri-arrow-right-line"></i>
+        </a>
+      </div>
+      <div class="hero-socials reveal-up delay-5">
+        <a href="https://github.com/" target="_blank" class="social-icon" aria-label="GitHub"><i class="ri-github-fill"></i></a>
+        <a href="https://linkedin.com/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+        <a href="mailto:gayu50027@gmail.com" class="social-icon" aria-label="Email"><i class="ri-mail-fill"></i></a>
+        <a href="https://twitter.com/" target="_blank" class="social-icon" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">About</div>
+      <h2 class="section-title scroll-reveal">Who I Am</h2>
+      <div class="about-text scroll-reveal delay-1">
+        <p class="about-greeting">Hi there 👋</p>
+        <h3 class="about-heading">A passionate developer building <em>modern</em> digital experiences.</h3>
+        <p class="about-body">
+          I am a B.Tech Information Technology student with a strong interest in software development and modern technology. I enjoy building responsive and user-friendly applications using technologies like Flutter, Dart, HTML, CSS, and Firebase. I am passionate about learning new skills, exploring innovative ideas, and developing projects that improve user experience and solve practical problems. My goal is to grow as a developer by continuously improving my technical knowledge and creating impactful digital solutions.
+        </p>
+        <div class="about-pills">
+          <span class="pill"><i class="ri-smartphone-line"></i> Mobile Dev</span>
+          <span class="pill"><i class="ri-code-s-slash-line"></i> Web Dev</span>
+          <span class="pill"><i class="ri-fire-line"></i> Firebase</span>
+          <span class="pill"><i class="ri-lightbulb-line"></i> UI/UX</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section skills-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Expertise</div>
+      <h2 class="section-title scroll-reveal">Skills &amp; Tools</h2>
+      <div class="skills-grid">
+        <div class="skill-card scroll-reveal" style="--i:0">
+          <div class="skill-icon-wrap"><i class="ri-html5-fill skill-icon"></i></div>
+          <h3 class="skill-name">HTML5</h3>
+          <p class="skill-desc">Semantic markup, accessibility, and modern web structure.</p>
+        </div>
+        <div class="skill-card scroll-reveal" style="--i:1">
+          <div class="skill-icon-wrap"><i class="ri-css3-fill skill-icon"></i></div>
+          <h3 class="skill-name">CSS3</h3>
+          <p class="skill-desc">Responsive layouts, animations, and modern styling.</p>
+        </div>
+        <div class="skill-card scroll-reveal" style="--i:2">
+          <div class="skill-icon-wrap"><i class="ri-flutter-fill skill-icon"></i></div>
+          <h3 class="skill-name">Flutter</h3>
+          <p class="skill-desc">Cross-platform mobile apps with beautiful native UIs.</p>
+        </div>
+        <div class="skill-card scroll-reveal" style="--i:3">
+          <div class="skill-icon-wrap"><i class="ri-code-box-fill skill-icon"></i></div>
+          <h3 class="skill-name">Dart</h3>
+          <p class="skill-desc">Object-oriented programming powering Flutter apps.</p>
+        </div>
+        <div class="skill-card scroll-reveal" style="--i:4">
+          <div class="skill-icon-wrap"><i class="ri-database-2-fill skill-icon"></i></div>
+          <h3 class="skill-name">Firebase</h3>
+          <p class="skill-desc">Real-time databases, auth, cloud functions &amp; hosting.</p>
+        </div>
+        <div class="skill-card scroll-reveal" style="--i:5">
+          <div class="skill-icon-wrap"><i class="ri-github-fill skill-icon"></i></div>
+          <h3 class="skill-name">Git &amp; GitHub</h3>
+          <p class="skill-desc">Version control, collaboration, and open-source workflows.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Portfolio</div>
+      <h2 class="section-title scroll-reveal">Featured Projects</h2>
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <article class="project-card scroll-reveal" style="--i:0">
+          <div class="project-img">
+            <div class="project-img-placeholder"><i class="ri-global-line"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn" aria-label="Live Demo"><i class="ri-external-link-line"></i></a>
+              <a href="#" class="overlay-btn" aria-label="Source Code"><i class="ri-github-fill"></i></a>
+            </div>
+            <div class="project-num">01</div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Online Courses Website</h3>
+            <p class="project-desc">A fully responsive educational platform for students to access online learning courses, study materials, and educational resources with an intuitive modern UI.</p>
+            <div class="project-tags">
+              <span class="tag">HTML</span><span class="tag">CSS</span>
+              <span class="tag">JavaScript</span><span class="tag">Responsive</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Live Demo <i class="ri-arrow-right-up-line"></i></a>
+              <a href="#" class="project-link project-link-ghost"><i class="ri-github-fill"></i> Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card scroll-reveal" style="--i:1">
+          <div class="project-img">
+            <div class="project-img-placeholder"><i class="ri-drag-drop-line"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn" aria-label="Live Demo"><i class="ri-external-link-line"></i></a>
+              <a href="#" class="overlay-btn" aria-label="Source Code"><i class="ri-github-fill"></i></a>
+            </div>
+            <div class="project-num">02</div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Low-Code Mobile App Builder</h3>
+            <p class="project-desc">A visual drag-and-drop platform allowing users to build mobile applications by assembling customizable widgets and configuring properties — no code required.</p>
+            <div class="project-tags">
+              <span class="tag">Flutter</span><span class="tag">Dart</span>
+              <span class="tag">Firebase</span><span class="tag">Low-Code</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Live Demo <i class="ri-arrow-right-up-line"></i></a>
+              <a href="#" class="project-link project-link-ghost"><i class="ri-github-fill"></i> Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 — Instagram Clone -->
+        <article class="project-card scroll-reveal" style="--i:2">
+          <div class="project-img">
+            <div class="project-img-placeholder"><i class="ri-instagram-line"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn" aria-label="Live Demo"><i class="ri-external-link-line"></i></a>
+              <a href="#" class="overlay-btn" aria-label="Source Code"><i class="ri-github-fill"></i></a>
+            </div>
+            <div class="project-num">03</div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Instagram Clone</h3>
+            <p class="project-desc">A feature-rich Instagram clone built with Flutter and Firebase, supporting user authentication, image uploads, real-time feed, likes, comments, and user profile management.</p>
+            <div class="project-tags">
+              <span class="tag">Flutter</span><span class="tag">Dart</span>
+              <span class="tag">Firebase</span><span class="tag">Cloud Storage</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Live Demo <i class="ri-arrow-right-up-line"></i></a>
+              <a href="#" class="project-link project-link-ghost"><i class="ri-github-fill"></i> Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 — Quiz App -->
+        <article class="project-card scroll-reveal" style="--i:3">
+          <div class="project-img">
+            <div class="project-img-placeholder"><i class="ri-question-answer-line"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn" aria-label="Live Demo"><i class="ri-external-link-line"></i></a>
+              <a href="#" class="overlay-btn" aria-label="Source Code"><i class="ri-github-fill"></i></a>
+            </div>
+            <div class="project-num">04</div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Quiz App</h3>
+            <p class="project-desc">An interactive quiz application built with Flutter featuring multiple categories, timed questions, score tracking, animated transitions, and a results summary screen.</p>
+            <div class="project-tags">
+              <span class="tag">Flutter</span><span class="tag">Dart</span>
+              <span class="tag">State Management</span><span class="tag">Animations</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">Live Demo <i class="ri-arrow-right-up-line"></i></a>
+              <a href="#" class="project-link project-link-ghost"><i class="ri-github-fill"></i> Code</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CERTIFICATES SECTION
+  ═══════════════════════════════════════ -->
+  <section id="certificates" class="section certificates-section">
+    <div class="container">
+
+      <div class="section-label scroll-reveal">Achievements</div>
+      <h2 class="section-title scroll-reveal">Certificates</h2>
+
+      <div class="certs-grid">
+
+        <!-- Certificate 1 — Web Design Internship -->
+        <div class="cert-card scroll-reveal" style="--i:0">
+          <div class="cert-ribbon">Certified</div>
+          <div class="cert-icon-wrap">
+            <i class="ri-window-fill cert-icon" style="color:#667eea;"></i>
+          </div>
+          <h3 class="cert-title">Web Design Internship Certificate</h3>
+          <p class="cert-issuer">
+            <i class="ri-building-line"></i> Mac Information Technology
+          </p>
+          <p class="cert-desc">
+            Completed a hands-on web design internship focused on frontend development. Gained practical experience in designing responsive, user-friendly interfaces using HTML and CSS, improving UI layouts, and delivering visually appealing web pages in a real-world environment.
+          </p>
+          <div class="cert-meta">
+            <span class="cert-year"><i class="ri-calendar-check-line"></i> 2024</span>
+            <div class="cert-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">UI Design</span>
+              <span class="tag">Responsive</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certificate 2 — Flutter Course -->
+        <div class="cert-card scroll-reveal" style="--i:1">
+          <div class="cert-ribbon">Certified</div>
+          <div class="cert-icon-wrap">
+            <i class="ri-flutter-fill cert-icon" style="color:#f093fb;"></i>
+          </div>
+          <h3 class="cert-title">Flutter Course Completion Certificate</h3>
+          <p class="cert-issuer">
+            <i class="ri-building-line"></i> G-TEC Computer Education
+          </p>
+          <p class="cert-desc">
+            Successfully completed a comprehensive Flutter development course covering Dart programming, widget architecture, state management, Firebase integration, and building cross-platform mobile applications for Android and iOS.
+          </p>
+          <div class="cert-meta">
+            <span class="cert-year"><i class="ri-calendar-check-line"></i> 2024</span>
+            <div class="cert-tags">
+              <span class="tag">Flutter</span>
+              <span class="tag">Dart</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">Mobile Dev</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE -->
+  <section id="experience" class="section experience-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Experience</div>
+      <h2 class="section-title scroll-reveal">Work Experience</h2>
+      <div class="timeline experience-timeline">
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card glass-card">
+            <div class="timeline-header">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div class="company-logo" aria-hidden="true"><span>G</span></div>
+                <div>
+                  <h3 class="timeline-degree">Web Design Intern</h3>
+                  <p class="timeline-institute"> Mac Information Technology</p>
+                </div>
+              </div>
+              <span class="timeline-badge">2024</span>
+            </div>
+            <p class="timeline-period"><i class="ri-briefcase-line"></i> Internship</p>
+            <p class="timeline-desc">Worked as a Web Design Intern, where I gained hands-on experience in designing responsive and user-friendly websites. Contributed to frontend development tasks using HTML and CSS, improved UI layouts, and collaborated on creating visually appealing web interfaces.</p>
+            <div class="timeline-tags">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="section education-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Background</div>
+      <h2 class="section-title scroll-reveal">Education</h2>
+      <div class="timeline">
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card glass-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-degree">B.Tech Information Technology</h3>
+                <p class="timeline-institute">Jaya Engineering College</p>
+              </div>
+              <span class="timeline-badge">Current</span>
+            </div>
+            <p class="timeline-period"><i class="ri-calendar-line"></i> 2022 – 2026</p>
+            <p class="timeline-desc">Completed Bachelor of Technology in Information Technology, with a strong interest in mobile application development, software engineering, and modern web technologies.</p>
+            <div class="timeline-tags">
+              <span class="tag">Flutter Developer</span><span class="tag">Software Engineer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-label scroll-reveal">Get In Touch</div>
+      <h2 class="section-title scroll-reveal">Let's Connect</h2>
+      <div class="contact-grid">
+        <div class="contact-info scroll-reveal">
+          <p class="contact-tagline">Have a project in mind or just want to say hi?<br />My inbox is always open.</p>
+          <div class="contact-items">
+            <a href="mailto:gayu50027@gmail.com" class="contact-item glass-card">
+              <div class="ci-icon"><i class="ri-mail-send-line"></i></div>
+              <div>
+                <span class="ci-label">Email</span>
+                <span class="ci-value">gayu50027@gmail.com</span>
+              </div>
+            </a>
+            <a href="https://github.com/Gayathri1005" target="_blank" class="contact-item glass-card">
+              <div class="ci-icon"><i class="ri-github-fill"></i></div>
+              <div>
+                <span class="ci-label">GitHub</span>
+                <span class="ci-value">github.com/Gayathri1005</span>
+              </div>
+            </a>
+            <a href="https://linkedin.com/in/gayathri-n-here" target="_blank" class="contact-item glass-card">
+              <div class="ci-icon"><i class="ri-linkedin-fill"></i></div>
+              <div>
+                <span class="ci-label">LinkedIn</span>
+                <span class="ci-value">in/gayathri-n-here</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="contact-form-wrap scroll-reveal delay-1">
+          <div class="glass-card contact-form-card">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="john@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" placeholder="Project Collaboration" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" rows="4" placeholder="Tell me about your project..."></textarea>
+            </div>
+            <button class="btn btn-primary btn-full" id="sendBtn">
+              Send Message <i class="ri-send-plane-fill"></i>
+            </button>
+            <p class="form-success" id="formSuccess">
+              <i class="ri-checkbox-circle-line"></i> Message sent! I'll get back to you soon.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#home" class="footer-logo">
+          <span class="logo-bracket">&lt;</span>Dev<span class="logo-bracket">/&gt;</span>
+        </a>
+        <p class="footer-copy">Designed &amp; Built by <strong>Gayathri</strong> · 2025</p>
+        <div class="footer-socials">
+          <a href="https://github.com/" target="_blank" class="social-icon" aria-label="GitHub"><i class="ri-github-fill"></i></a>
+          <a href="https://linkedin.com/" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+          <a href="mailto:gayu50027@gmail.com" class="social-icon" aria-label="Email"><i class="ri-mail-fill"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Certificates scroll reveal ── */
+    const certObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const delay = (parseInt(card.style.getPropertyValue('--i')) || 0) * 150;
+          setTimeout(() => card.classList.add('visible'), delay);
+          certObserver.unobserve(card);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.cert-card').forEach(c => certObserver.observe(c));
+  </script>
+</body>
+</html>
